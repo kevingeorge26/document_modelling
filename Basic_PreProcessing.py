@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 Created on Jan 28, 2013
 
@@ -8,6 +10,7 @@ from string import punctuation
 from collections import defaultdict
 import nltk
 from nltk.collocations import *
+import sys
 
 final_list = {}
 
@@ -17,6 +20,7 @@ def get_rfc_text():
 
 
 def calculate_word_freq(filename,number_of_words):
+    
     
     """ code to get the word count in the protocol """
     """ prints the top number_of_words"""
@@ -49,14 +53,31 @@ def calculate_bigrams(filename,number_bigrams):
 if __name__ == '__main__':
     
     global final_list
+    
+    if( len(sys.argv) >1 ):
+        if len(sys.argv) == 4:
+            filename = sys.argv[1]
+            number_of_words = sys.argv[2]
+            number_bigrams = sys.argv[3]
+        else:
+            print "the usage is python Basic_PreProcessing <filename> <number of frequency count> < number of bigrams>"
+            print "Going to use the default values"
+            filename = "test.txt"
+            number_of_words = 10
+            number_bigrams = 10
+            
+       
+    else:
+        filename = "test.txt"
+        number_of_words = 10
+        number_bigrams = 10
+    
+   
     final_list = defaultdict(lambda: 0)
     
     trantab = maketrans(punctuation, " " * len(punctuation))
     stop_words  = set(open("stop_words.txt").read().split(","))
     
-    calculate_word_freq(filename="test.txt",number_of_words = 10)
-    calculate_bigrams(filename="test.txt",number_bigrams=10)
-    
-   
-    
+    calculate_word_freq(filename,int(number_of_words) )
+    calculate_bigrams(filename,int(number_bigrams) )    
     pass
