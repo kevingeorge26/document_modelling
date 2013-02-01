@@ -1,0 +1,547 @@
+ Skip Navigation
+This page features MathJax technology to render mathematical formulae. If you are using a screen reader, please visit MathPlayer to download the plugin for your browser. Please note that this is an Internet Explorer-only plugin at this time.
+Algorithms: Design and Analysis, Part 2
+Top Navigation Bar
+
+    Courses
+    About
+    kevin
+
+Algorithms: Design and Analysis, Part 2
+Tim Roughgarden
+Stanford University
+Side Navigation Bar
+
+    Home
+    Syllabus
+    Course Logistics + Assessment
+    Video Lectures
+    Assignments
+    Theory (Optional) Problems
+    Discussion Forums
+    Course Wiki
+    Join a Meetup
+
+Subscribe for email updates.
+
+    Forums /
+    Programming Assignments /
+    Programming Assignment #5 /
+
+Anyone got a working python implementation?
+
+    Sort replies by:
+    Oldest first
+    Newest first
+    Most popular
+
+    1
+    2
+    Next →
+
+No tags yet. + Add Tag
+Matthew Tyler (Student) · 2 weeks ago
+
+I've been doing the exercises in python, but I can't get a solution for PA5 that doesn't run out of memory or take more time than I am willing to wait.
+
+Has anyone managed this? I'm thinking I will have to use C++.
+Vote this post up 8 Vote this post down
+Jacek Wojcieszynski (Student) · 2 weeks ago
+
+I just started to work on. Have you used memoization?
+Vote this post up 0 Vote this post down
+Comments
+Matthew Tyler (Student) · 2 weeks ago
+
+Yeah, that's what murdered my memory.
+Vote this post up 1 Vote this post down
+ 
+Matthew Tyler (Student) · 2 weeks ago
+
+That is to say, I think the space overhead associated with pythons datatypes are causing issues for me.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Stephen Clark · 2 weeks ago
+
+I was able to do it in python 3.2. It took a long time to run as well as to code. It took 143 minutes running on an i5 3570 with 8Gb RAM on Windows 7-64bit. The main memory usage is just a 25 by 2^24 float array that I used to store. I don't have exact figures, but since I was using numpy which uses 64-bit floats, I believe that is 3.3 Gb RAM (that seemed consistent with what my resource monitor was showing). Given my experience on the forums, I am usually one of the slowest Python programmers here. I often post a time, and find someone else doing it in Python in half to one-tenth the time, and I would not be surprised if that is the case here as well. I saw C++ programmers with times of 60 seconds, so I wouldn't be surprised if a good python programmer could get it down to 15 minutes or less. The time doesn't bother me, after I tested the program with several smaller datasets, I just let it run overnight, and woke up to the correct answer. If I had to do multiple datasets or if I had an older computer, I probably would have translated it to C.
+
+I should note that if the Prof is reading, n=25 is a bit too much in my opinion. If the point is to have a dataset large enough to discourage brute-force, that is only n=13 (as was noted in the lecture, one sees a significant speed up even at n=10), so n=17 would have been better than n=25.
+Vote this post up 27 Vote this post down
++ Add New Comment
+Michael Mark (Student) · 2 weeks ago
+
+I did it in Python 2.7 and it was also very slow -- 125 minutes. I'm just a novice programmer so there wasn't much in the way of optimization. I did learn a few things, though, relevant to some earlier comments. First, I think you have to have a 64-bit version of Python. At the download site you have a choice of either 32- or 64-bit. Second, I don't think memoization will do you any good. The array is just too large and, by my measurement, 48% of the entries are modified at least once. Of course you could memoize the distances, but I think having a distance array instead would save some instruction cycles.
+
+I realize this is not a programming language course, but I think that occasionally, after we've had a chance to code up the problems, it would be very educational to see how Tim coded them. There are lots of details that don't get reflected in the high-level description.
+Vote this post up 11 Vote this post down
++ Add New Comment
+Jonathan Jianxiong Tay · 2 weeks ago
+
+You might have to switch to 64bit Python to get this problem done (at least I chose to do that as the path of least resistance). My implementation took 43 minutes on an identical CPU as Stephen, the difference being I had 16GB of RAM and used 11.6GB of it computing the solution. I called the garbage collector at every iteration hoping that clearing memory might help.
+
+I was using dicts of dicts to store all my data (indexed by frozensets of integers). It was extremely memory intensive (though convenient to code).
+
+I agree that n = 25 is a bit much because it more or less requires a custom data structure or working at the binary level to get the data into memory. That means more focus on fiddly implementation or language issues, and less on what the algorithm is doing. For example, we could use 0-1 bits to represent whether each node is in a given set S, but it's a lot less readable than simply S = set([0, 2, 5]) for example.
+Vote this post up 12 Vote this post down
++ Add New Comment
+Heryandi (Student) · 2 weeks ago
+
+I am using plain 64-bit Python 3.3 on a machine with 8GB of RAM. I used one integer to represent the cities visited and another integer to represent the last city visited as index to dictionary. The values of the dictionary are just floats. Only the dictionary for current value of m and previous value of m are kept.
+
+I didn't keep track of the exact time but my solution finishes in more than 5 hours. The slowdown is because of the memory issue. The slowdown is most visible when m = 12, 13, 14, 15 (i.e. number of current and previous subproblems are the biggest). I believe that once the memory usage is too big to fit in RAM, the disk will be used to provide more space.
+Vote this post up 2 Vote this post down
+Comments
+Anonymous · 1 week ago
+
+Sounds like my implementation is exactly the same as yours. Mine took 12 hours and it also hit a "hump" at m=12, 13, 14, 15, likely because that's when the virtual memory kicked in. I have Python 2.7 and 2GB of RAM.
+Vote this post up 1 Vote this post down
+ 
+Chad Miller · 1 week ago
+
+Combinatorics says that the halfway point is going to have the most subproblems (each iteration has N choose m subproblems), so those iterations should take the longest time even with infinite memory. The fact that it's also the highest memory usage period would certainly exacerbate the problem.
+Vote this post up 4 Vote this post down
+ 
++ Add New Comment
+Moshe Voloshin (Student) · 2 weeks ago
+
+I implemented it in Python 2.7 using Dictionary with keys as strings representing sets, and I retired sets that are not to be used anymore to save on memory. I ran it with pypy (not python, see pypy.org - it optimize the running) and it took 21 min. I expect with python it would take well over an hour. The peak memory on the process was about 3GB. I did similar implementation in Java, again with dictionary, not an array. It ran slower than pypy and took 30 min with also about 3GB memory for the process.
+Vote this post up 3 Vote this post down
+Comments
+Paul Anthony Ceccato · 1 week ago
+
+I used a dictionary too.... without retiring sets. It's been running for hours and thrashing the virtual memory.
+
+Gonna retry with numpy float16 arrays
+Vote this post up 0 Vote this post down
+ 
+Sebastián Ramírez Montaño · 6 days ago
+
+@Moshe Voloshin: Thank you for the PyPy tip :)
+Vote this post up 1 Vote this post down
+ 
++ Add New Comment
+Laura Rhodes (Student) · 2 weeks ago
+
+I have it working on a 32-bit Windows 7 machine using Python 2.6. 64-bit Python is not an option for me. The trick is only holding onto the results for the current value of m and the previous value of m. I use a pair of n x (n choose n/2) arrays (25 x 2704156) and alternate between them. I have a pair of dictionaries which keeps track of the index into the array for each set of nodes for the current and previous subproblems. When I'm done with the previous subproblem, I discard its dictionary and start a new one for the next problem. I am using numpy and specify only 32-bit floats (np.float32) when initializing the arrays. Currently my implementation is slow but at least it fits in my computer's memory - ~80 minutes on an i5, 3.3GHz, 32-bit Win7 desktop.
+Vote this post up 7 Vote this post down
+Comments
+Jonathan Jianxiong Tay · 2 weeks ago
+
+Hi Laura,
+
+Thanks for the hint. I swapped some code around to make dicts of ints indexing into the numpy arrays like you suggested, but I think the dicts themselves consume all the memory (I'm on m = 11 now, and memory usage is 4.7GB and climbing - definitely too big for 32bit Python).
+
+What are you using for the keys to your dicts, please? I'm thinking it's my choice of frozenset as dict keys that is gobbling up the memory. I guess I could use tuples, but it would cost more coding effort to implement set unions and differences. sys.getsizeof(frozenset([1,2,..10])) = 736, but sys.getsizeof((1,2,..10)) = 128
+Vote this post up 1 Vote this post down
+ 
+Chad Miller · 1 week ago
+
+Here's a quick function I wrote to reduce the subsets to integer keys. I'm not quite there yet but the run I just made was my closest so far.
+
+def key_from_subset(subset, S):
+    U = sorted(S)
+    result = 0
+    for node in U:
+        result += 1 if node in subset else 0
+        result <<= 1
+    return result
+
+Vote this post up 4 Vote this post down
+ 
+Mario Maio · 1 week ago
+
+Following your 2-array approach, using lists in place of dictionaries, and combinatorial number system instead of itertools, I managed to stay under 30 minutes with PyPy on Windows 7 i5 (1st generation) 2.3 GhZ. However it took me a LOT of time of algorithmic research and optimization to get to that result.
+Vote this post up 0 Vote this post down
+ 
+Sebastián Ramírez Montaño · 6 days ago
+
+@Chad Miller: Thank you for that function, it helped me (with some modifications specific to my code) to solve the memory errors.
+Vote this post up 0 Vote this post down
+ 
+vivek kaul (Student) · 4 days ago
+
+Laura, do you use numpy arrays or lists? Thanks for your interesting observations. I was using a dictionary of tuples (set index generating using bits and vertex index) and deleting elements from the previous iteration each time I finish the current one. It seems like it is more efficient to keep two separate dictionary and start a fresh one rather than deleting elements from the old one. Does the garbage collector clear the memory more efficiently than just using the del operation on the dictionary.
+Vote this post up 0 Vote this post down
+ 
+Prasanth Shyamsundar · 4 days ago
+
+@Chad Reducing subsets to integer keys can also be done as follows:
+
+#N = 25
+pow2 = [2**i for i in xrange(N)]
+def subsetKey(subset):
+    return sum((pow2[i] for i in subset))
+
+To find the key after removing a city k, just subtract pow2[k].
+
+To check if city k exists in a subset represented by key, check if key/k is odd.
+Vote this post up 1 Vote this post down
+ 
+Eduardo López Biagi · 4 days ago
+
+An other options is using bit shifts:
+
+val = 0
+for idx in subset:
+    val |= (1 << idx)
+
+But I like it better written like this:
+
+reduce(lamda val,idx: val | (1 << idx), subset, 0)
+
+Vote this post up 1 Vote this post down
+ 
++ Add New Comment
+Anonymous · 2 weeks ago
+
+I let my Python implementation run for 100min before giving up. Agree with everyone who said n=25 is too big. We can't see the forest for all the memory-gobbling trees.
+Vote this post up 3 Vote this post down
++ Add New Comment
+David Hood · 1 week ago
+
+I had a beautiful, memoised DP algorithm, but the memory just blew out somewhere around the 20 node mark. So I used domain knowledge heuristics to produce a 45 second solution.
+
+In my day job, I get occasional "make something of this data" jobs, so I graphed it. Together with the domain knowledge that the TSP includes a "to" leg of the trip and a "from" leg of the trip to make a complete cycle, it is rather obvious that there are a pair of nodes that are going to be on different sides of the final route (let's call them u and v) forming a natural bottleneck dividing the number of nodes approximately in half (g1 and g2 where u and v form the open endpoints of the route in both cases). To both confirm this, and to solve the problem I ran TSP on g1 plus some of the near nodes of g2 (which formed a little arc between u and v with the g1 optimal TSP being the rest of the solution, then discarded the segments involving the extra g2 points to create an open g1 route from u to v. I then repeated the process for the g2 nodes with some added near nodes from g1 to form an arc from u to v which I (again) discarded to give me the optimal TSP for g2 between u and v. I then merged the two solutions. It would be tricky to do this with a graph that had no obvious bottleneck, but it worked rather nicely in this case. Basically running 2 (exponentially smaller) TSP problems rather than one.
+Vote this post up 12 Vote this post down
+Comments
+Jamas Enright · 1 week ago
+
+Thank you for this idea! Plotting the graph, I saw two subgraphs about half the size and an edge that had to be common to both. Two far smaller problems later (once I worked out the right formulation of them), a little calculation, and BOOM! Answer!
+
+(Not in Python, in R, so not specifically this thread, but hey, the idea is what matters.)
+Vote this post up 1 Vote this post down
+ 
+Eric James Gross · 1 week ago
+
+, I saw two subgraphs about half the size and an edge that had to be common to both. "
+
+I don't understand this, knowing nothing about a solution, it is a fully connected graph.
+How can you even read the output of graphviz on a fully connected graph, I can't.
+Vote this post up 1 Vote this post down
+ 
+David Hood · 1 week ago
+
+@Eric, Imagine you plot the individual points using exact x,y placement (not graphviz, which by default plots relationships). Now, imagine that those plotted individual points can be seen to form an hourglass shape. It is pretty easy to conclude you can independently work out the shortest paths for the top half of the hourglass and the bottom half of the hourglass, and then join the two halves together (in practise, you work out the top half and a bit, and the bottom half and a bit, then delete the extra bits for the join).
+Vote this post up 2 Vote this post down
+ 
+Eric James Gross · 1 week ago
+
+Thanks,
+
+Yeah I had just figured out you meant spatial plotting and not graph diagramming. I think I see what you are getting at, Thanks!
+Vote this post up 0 Vote this post down
+ 
+Tom Smith · 6 days ago
+
+Very helpful advice, thanks! I used the plotting code from here: https://class.coursera.org/algo2-2012-001/forum/thread?thread_id=629&post_id=2306
+Vote this post up 0 Vote this post down
+ 
+Andrew Paul Frank (Student) · 5 days ago
+
+Hey David (or Jamas or Eric), I'm using ruby and I think that this approach is my only option. However, I have a couple of questions for you because I'm having a little trouble getting it to work. 1) Are you manipulating the two parts of the graphs before or after you do the last step that makes it a complete graph (ie. the step where you connect back to the origin node). 2) Are you actually keeping track of the path and not just the length of the path?
+
+Thanks in advance!
+Vote this post up 0 Vote this post down
+ 
+David Hood · 5 days ago
+
+@andrew, Explaining things in terms of the example diagram I have just put at http://www.flickr.com/photos/thoughtfulbloke/8416807903/ and the reference nodes A and B:
+
+1) shouldn't matter- if I am clear on the little bit of the green or blue path that extends into the others territory it should give the same result if I chop each graph back to A and B before combining or after combining. As it happens I chopped the unwanted paths before joining in my case. For chopping the unwanted paths, for doing this problem you should probably have some kind of reference in your code for how far every node is from every other node (or I suppose you could be calculating as needed, but why repeat all that work), and he chop action is just subtracting the length of the unwanted parts of the graphs from the individual (or overall if you combine first) totals.
+
+2) I kept track of the path when I did this (returning the actual path as well as the distance) to make sure the graphs had formed in the way I had expected, so could combine them. My reason for this was that while testing this I hadn't given the sub graphs any points from the other sub graphs territory and that distorted that shape of the main sub graph (once I realised what was going on I added enough points from the other sub graphs territory to force A and B to connect by only one logical path of known length (for each sub graph). That said, if I was rerunning it now and confident of my choice in points, I wouldn't need to return the actual path as a check, I could just assume the bit I wanted to chop was correctly formed and subtract that distance.
+Vote this post up 0 Vote this post down
+ 
+Andrew Paul Frank (Student) · 5 days ago
+
+@david
+
+I want to give you a public shout out here. you really saved my day. i did every optimization trick i know, and it was still not good enough (in ruby). using your very clever method here, i brought my solution time down from 100s of hours to 16 seconds + a couple minutes of human time. thanks again!
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Jan Kohout (Student) · 1 week ago
+
+Even when using but representation and computing sets from integer bits I do not fit into 2 GB memory available on a 32-bit system. Fails during ndarray initialization :-(
+
+In theory, size of 25*2^24 is ~1.5 GB, but one would need completely empty system, which is unreachable.
+
+24 nodes works. I will search for some 64-bit system with at least 3 GB of memory. There was nothing about HW requirements at the beginning of the course. That is so STUPID.
+Vote this post up 5 Vote this post down
+Comments
+Carsten Hansen (Student) · 1 week ago
+
+If you look at the table of distances, you will see that it is not too difficult to reduce the problem to a problem with just 24 vertices. You can then recover the solution to the original problem by doing a little post processing.
+Vote this post up 1 Vote this post down
+ 
+Jonathan Jianxiong Tay · 1 week ago
+
+Hi Jan,
+
+As Laura notes above, you can halve the space used by your arrays by initialising them with dtype = np.float32
+Vote this post up 0 Vote this post down
+ 
+Jan Kohout (Student) · 1 week ago
+
+Thanks for your answers. I have used float32 since the beginning, and even failed during the
+
+np.ndarray ( shape = (2**(Nodes-1), Nodes), dtype=np.float32)
+
+To look at the node positioning is really an interesting idea. Going to find tome tool to draw it
+Vote this post up 0 Vote this post down
+ 
+Jonathan Jianxiong Tay · 1 week ago
+
+Hi Jan,
+
+You could try np.float16. However, in my case most of the memory is being used by the dictionary that maps sets into the array, not the array itself. Are you sure it isn't the dictionary that is causing the memory explosion? In practical cases I think domain knowledge simplification as Carsten suggests above is a good idea, but that's an approach that isn't always applicable.
+Vote this post up 0 Vote this post down
+ 
+Anonymous · 6 days ago
+
+Carsten's suggestion above (to take one obvious edge as given, and reduce the problem to 24 vertices) halves the number of itertools.combinations to consider from 2.7M to 1.35M, and made it feasible in 65 minutes with Python and 4GB ram.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Michael Mark (Student) · 1 week ago
+
+I had a Python array solution, and with float32 I could solve the n=25 problem but just barely. Then, after reading some of the above posts, I tore out the array, replaced it with dictionaries, and now have no problem doing n=29 or larger problems, and faster. A dictionary solution provides all sorts of benefits, not the least of which is that at any given time you only need to look at sets S of size m and m-1.
+Vote this post up 1 Vote this post down
++ Add New Comment
+Matthew Tyler (Student) · 1 week ago
+
+Finally got it done using PyPy. I used bit manipulation for the sets, and algorithm to give me the next item in the set with the same number of 1's. Used two dictionaries to hold the sub-problem solutions for m and m-1.
+
+Took about 16.5 minutes
+Vote this post up 2 Vote this post down
++ Add New Comment
+Mario Maio · 1 week ago
+
+You don't need a dictionary, integers from 0 to 2^24-1 can be used as indexes (each bit representing a node) of a plain array (of arrays of length 25). The use of 'itertools' let you avoid bit manipulation altogether (or so). Main loop gets 5 lines long. This way you can speed up the processing and solve the memory issues.
+Vote this post up 4 Vote this post down
+Comments
+jan grant (Student) · 1 week ago
+
+Worth a vote up for this. Check out the itertools.combinations generator. Saved me a dozen lines of code.
+Vote this post up 1 Vote this post down
+ 
+Anonymous · 6 days ago
+
+itertools.combinations produces sets that are sorted numerically, so it is possible to just concatenate the elements of each set into a string, for use as dictionary key, f.ex '123.....222324'.
+Vote this post up 1 Vote this post down
+ 
+Ralf Haring (Student) · 2 days ago
+
+I don't think you can just concatenate them or the set of (1,2,3) and (1,23) would be indistinguishable.
+Vote this post up 0 Vote this post down
+ 
+Anonymous · 2 days ago
+
+@Ralf: those 2 sets never need to be distinguished, since they are considered at different iterations (m=3 and m=2)
+Vote this post up 1 Vote this post down
+ 
+Anonymous · 1 day ago
+
+Simple concatenation of the city numbers is ok here, where numbers only have 1 or 2 digits. But with 3-digit numbers, this trick cannot be used, because 1234 would mean both (12,34) and (1,234).
+Vote this post up 1 Vote this post down
+ 
++ Add New Comment
+Jeff Blohm · 1 week ago
+
+I have it running in 32 bit Python 2.7.3 using arrays, and without the use of numpy.
+
+It runs in (ugh) 61 minutes on a pretty slow machine (i3 2.3GHz running Windows 7).
+
+I'm using bit manipulations, but see a number of other ways that should make it faster... maybe I'll try some of them this week.
+Vote this post up 0 Vote this post down
+Comments
+Jeff Blohm · 6 days ago
+
+Pypy and some of the tweaks suggested in the forums bring the time down to 341 seconds.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Jonathan Jianxiong Tay · 1 week ago
+
+After using bit-sets mapped to ints as set identifiers, I've finally got it down to:
+
+    64bit CPython: 976s, list of array.array
+    64bit CPython: 1111s, dict of array.array
+    32bit PyPy: 261s, dict of array.array
+    32bit PyPy: 239s list of array.array (requires manual garbage collection to prevent memory overrun)
+
+Credit where credit is due: Mario Maio for the list of arrays idea, Matthew Tyler for PyPy, and Isara on the PA5 Runtimes thread for bit manipulations.
+Vote this post up 2 Vote this post down
+Comments
+Mario Maio · 1 week ago
+
+Can you tell us how to apply the manual garbage collection with PyPy?
+Vote this post up 0 Vote this post down
+ 
+Chad Miller · 1 week ago
+
+gc.collect() ? I think it still works in Pypy
+Vote this post up 0 Vote this post down
+ 
+Jonathan Jianxiong Tay · 1 week ago
+
+Yeah, that's what I used. Called it after I knocked off the last reference to the big dict/list variable.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Lucas Charles · 1 week ago
+
+I already used pypy for the 4th problem, but I might consider using Lua or Luajit if I run into performances issues.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Matthew Friedrichsen (Student) · 1 week ago
+
+I'm trying something in my implementation to reduce the amount of memory. Since for each iteration through m you only need the results from subsets of size m-1, I'm going to try storing less so on each iteration I will calculate all the subsets of size m containing one. I just worked on a great little recursive function to do this part. If anyone wants to get a hint, let me know.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Mikhail Dubov · 1 week ago
+
+Finally managed to reduce the amount of memory used (Python 2.7 + NumPy + PyPy) and to get the answer. The key to my solution is that there is a way to get a concrete unique index for a given (n, k)-combination: http://en.wikipedia.org/wiki/Combinatorial_number_system
+
+That can be useful for indexing the NumPy array without using any mapping dictionaries. Thus one can only allocate memory for a pair of n x (n choose n/2) arrays, as proposed by Laura (thank you, Laura!), and solve the problem using no more than 1GB of memory (in Python!).
+
+The drawback of this approach is a slightly worse assymptotic runtime of the algorithm than that from the lecture, since one has now to calculate a series of binomial coefficients each time one accesses the array. That resulted for me into several hours of running time.
+Vote this post up 3 Vote this post down
+Comments
+Nir Friedman (Student) · 1 week ago
+
+I am curious if this is consistent with the order in which combinations are generated. In other words, if you use for index,tuple in enumerate(itertools.combinations(range(n),k): ...
+
+If the index,tuple pairs are consistent with this number system.
+Vote this post up 1 Vote this post down
+ 
+Nir Friedman (Student) · 1 week ago
+
+I didn't finish my thought. If so, then you can eliminate I think half of the lookups.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+A post was deleted.
+Nir Friedman (Student) · 1 week ago
+
+I did brute force in Cython. No dictionaries, and no dropping of smaller sets. I used a single array of size 2^24 by 24, with 32 bit floats. I wrote the whole thing in Python first, debugged it (maybe an hour). Then I used Cython for the first time ever, took me a while to get the hang of it. I added some static type declarations. I got about a x4 speedup. It took around 20 minutes to solve the problem correctly. I'm sure I could have done better, as I said my very first time using Cython. I should probably use the profiler on it, but I'm not too hot at profiling with Python either.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Anonymous · 1 week ago
+
+I've used Python for all the other programming assignments, but after reading the travails here, I switched to Java for this problem only. It took 4 times the amount of time it would have taken me to write it in Python, but the complete Java program ran in under 2 minutes. If it had been 20 cities or so, I would have stuck to Python, but not 25 cities.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Anonymous · 1 week ago
+
+4GB of Ram and did not work.
+
+I kept a dictionary of partial solutions for only two rows at a time, the previous one and the row being computed, used generators to get the subsets, explicitly cleared the old dictionaries after using them, explicitly garbage-collected after computing each new row of the array, increased the swap size on my FreeBSD OS from 4GB to 8GB using a swapfile, and every time, when computing the 11th row, the process just died.
+Vote this post up 0 Vote this post down
+Comments
+jan grant (Student) · 1 week ago
+
+You might be hitting an enforced maximum process size (look at the output of the "ulimit -a" command) which will kick in regardless of the available total virtual memory.
+
+I did the same as you, but: no explicit GC (the ref counting scheme should suffice); encoded subsets as ints; and whilst the process ran to completion under Python (grew to close to 3GB), under pypy it stayed under a total of 2.5GB.
+Vote this post up 1 Vote this post down
+ 
++ Add New Comment
+Mario Maio · 1 week ago
+
+Here it is a 3 lines (initial condition included) version of TSP algorithm, using only lists with just 1 element per cycle (the minimum needed, it's impossible to use less elements than this):
+
+A=[]
+for m in range(?,n):
+    A.append([[m and ??? or 0]+[min(?[m-1][????_j(s,n,m-1,j)][kth]+c[k][j] for ???,k in enumerate((? for _ in (0,)+? if _!=j))) for jth,? in enumerate(s)] for s in itertools.combinations(range(1,?),?)])
+
+I overwrote some characters with question mark in order not to break honor code. Moreover it's impossible to use it without a function using an algorithm that I found (well, someone might have already coded it), returning the index of a given combination of nodes. Unfortunately it is much slower than other less compact and memory optimized versions.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Samir Shah (Student) · 1 week ago
+
+I spent hours trying to get my Python implementation of the lecture algorithm to work, but in the end gave up trying to fix the memory issues that everybody has been discussing. Then I decided to try looking at other (randomised) algorithms. This thread was very helpful. It took half an hour to code up an annealing algorithm, and the code took about 10 minutes to give me the correct solution.
+Vote this post up 1 Vote this post down
+Comments
+TJ Takei (Student) · 1 week ago
+
+My poor Windows7 never makes it when size > 22 - regardless DP, rewrite from recursion to iterative. Eventually I switched to Linux (RHEL 5.0) Python 2.7 to see it barely finished in >1500 sec.
+Vote this post up 0 Vote this post down
+ 
++ Add New Comment
+Minsoul Michel (Student) · 1 week ago
+
+My code in Python solves the problem (on my laptop) in about 30 minutes and uses about 3.5 Gb of memory. The key to reduce the memory consumption is to represent sets of nodes as bitsets. Since there are less than 32 nodes, a single 32 bits integer can be used to represent a set of nodes.
+Vote this post up 1 Vote this post down
++ Add New Comment
+Jacek Wojcieszynski (Student) · 1 week ago
+
+Could you elaborate a little bit more about the data structure you have used. My implementation of DP (based on Held - Karp variation of Bellman equation) works for up to 20 nodes. So, I decided to write another program (Simulated Annealing, simpler than Genetic Alg for me) to solve PA5. I have passed but still I dont know how to improve a memory usage in DP case.
+Vote this post up 1 Vote this post down
++ Add New Comment
+Muhammad Amine Bouguerra · 1 week ago
+
+Got it to work in Python 2.7 on Ubuntu. It took about an hour with a sandy bridge i5 and 6Gb of Ram. I was not able to execute it untill I used generators.
+Vote this post up 0 Vote this post down
++ Add New Comment
+Paul Anthony Ceccato · 1 week ago
+
+My first naive implementation in python failed to complete in over 24 hours. I used frozensets containing indices for the node list and a map of tuples of (set,k).
+
+I then rewrote it using my own bitset class to store the visited nodes and using the integer value of the bitset as an index into numpy matrices. But it still used too much memory due to pythons float being 8 bytes and ran really slowly and did not complete due to excessive paging.
+
+Using float16 caused an overflow error. Float32 managed to complete and compute the answer.
+
+I also tried another approach using a list of empty lists, lazily instantiating lists initialized to sys.float_type.max and freeing them once their data was no longer required.
+
+Run time was about 17 mins on OSX 64 bit on a 2.4 Ghz quad core with 8 Gb RAM in pypy.
+
+That was fun!
+Vote this post up 0 Vote this post down
++ Add New Comment
+Franck rethore · 1 week ago
+
+42 minutes with pypy and Python 2.7 on core i3 with 4G RAM, peak RAM 2.6G Using itertools.combinations to find sets, and taking care of keeping just m and m-1 sized sets in memory Otherwise straight implementation from the slides
+Vote this post up 0 Vote this post down
++ Add New Comment
+Denis Redozubov · 6 days ago
+
+Took me awhile to debug only to see horrible running time(~2 hours) on CPython with numpy arrays(indexed by bitsets - integers). It gave me the answer of course, but running time is awful. I profiled it with cProfile and i can't see particular bottleneck points, so i decided to write decent C version instead. We'll see tomorrow, when i'll get the time needed.
+Vote this post up 0 Vote this post down
++ Add New Comment
+
+    1
+    2
+    Next →
+
+Reply to Thread Use $$LaTeX$$ for math support.
+Editor Markup Toolbar
+
+    Strong Ctrl+B
+    Emphasis Ctrl+I
+    Hyperlink Ctrl+L
+    Blockquote
+
+        Ctrl+Q
+
+    Code Sample
+
+     Ctrl+K
+
+    Image Ctrl+G
+    Numbered List
+        Ctrl+O
+    Bulleted List
+        Ctrl+U
+    Heading
+    /
+    Ctrl+H
+    Horizontal Rule Ctrl+R
+    Undo - Ctrl+Z
+    Redo - Ctrl+Shift+Z
+
+This forum supports the Markdown markup language. Markdown has some quirks with regard to line and paragraph breaks. By default, leaving one new line (pressing enter once) does not do anything. To start a new paragraph, leave two new lines. To force a line break with only one new line, leave two or more spaces after the end of the line.
+Make this post anonymous to other students.
+Subscribe to this thread at the same time.
+Instant Preview
