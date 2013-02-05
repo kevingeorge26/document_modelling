@@ -1,0 +1,10 @@
+
+
+Python version 2.7.3
+NLTK http://nltk.org/install.html
+
+HOW TO USE:
+
+Python Basic_PreProcessing <filename> <number of frequency count> < number of bigrams> 
+
+If you don't provide the arguments the program will run on default values
