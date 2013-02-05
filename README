@@ -5,6 +5,10 @@ NLTK http://nltk.org/install.html
 
 HOW TO USE:
 
-Python Basic_PreProcessing <filename> <number of frequency count> < number of bigrams> 
+The programs gets the document to parse form the folder named "input" which should be placed within the project
+It outputs the files in a folder called "output"
+
+
+Python Basic_PreProcessing <number of frequency count> < number of bigrams> 
 
 If you don't provide the arguments the program will run on default values
