@@ -12,12 +12,11 @@ import nltk
 from nltk.collocations import *
 import sys
 import os
-from os import listdir
+from os import listdir,walk
 from os.path import isfile, join
 
 final_list = {}
-current_dir = os.getcwd()
-print current_dir
+
 
 def get_rfc_text():
     """ write the code to get the rfc text """
@@ -31,15 +30,15 @@ def calculate_word_freq(filename,number_of_words):
     """ prints the top number_of_words"""
     
     
-    with open(current_dir + "/input/" + filename) as f:
+    with open(filename) as f:
         for i in f:
-            with_stop_words = i.translate(trantab).lower()
-            without_stop_words = filter(lambda x: x not in stop_words, with_stop_words.split(" "))
+            with_stop_words = i.strip().translate(trantab).lower()
+            without_stop_words = filter(lambda x: x not in stop_words, with_stop_words.split())
             
             for word in without_stop_words:
                 final_list[word]+=1
-    
-    output = open(current_dir + "/output/" + filename.split(".")[0] + " _Frequency.txt",'w')    
+        
+    output = open( filename.replace("input","output").replace( ".txt" ," _Frequency.txt"), "w")    
     
     
     counter = 0            
@@ -55,22 +54,27 @@ def calculate_word_freq(filename,number_of_words):
 def calculate_bigrams(filename,number_bigrams):
     """ print top number_bigrams bigrams """
     bigram_measures = nltk.collocations.BigramAssocMeasures()
-    finder = BigramCollocationFinder.from_words(open(current_dir + "/input/" + filename).read().split())
+    finder = BigramCollocationFinder.from_words(open(filename).read().split())
     scored = finder.score_ngrams( bigram_measures.likelihood_ratio  )
     scored.sort(key = lambda x:x[1],reverse=True)
     
-    output = open(current_dir + "/output/" + filename.split(".")[0] + " _BiGrams.txt",'w')    
+    output = open(filename.replace("input","output").replace( ".txt" ," _BiGrams.txt"),"w")    
     output.write("\n".join( "%s %s" %x for x in scored[:number_bigrams] ) )
     
         
-def get_files(dir):
-        onlyfiles = [ f for f in listdir(dir) if isfile(join(dir,f)) ]
-        return onlyfiles
+def get_files(path_name):
+    f = []
+    for (dirpath, dirname, filenames) in walk(path_name):
+        f.extend(map(lambda x: dirpath+"/" +x ,filenames))
+    
+    print f    
+    return f
+
+
 
 if __name__ == '__main__':
     
 
-    
     global final_list
     
     if( len(sys.argv) >1 ):
@@ -96,9 +100,10 @@ if __name__ == '__main__':
     final_list = defaultdict(lambda: 0)
     
     trantab = maketrans(punctuation, " " * len(punctuation))
-    stop_words  = set(open("stop_words.txt").read().split(","))
-    
+    stop_words  = set(line.strip() for line in open("stop_words.txt") )
+          
     for filename in get_files("./input"):
+        final_list.clear()
         calculate_word_freq(filename,int(number_of_words) )
         calculate_bigrams(filename,int(number_bigrams) )    
     

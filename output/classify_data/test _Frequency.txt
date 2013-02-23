@@ -1,0 +1,12 @@
+ 326 tcp 
+ 263 connection 
+ 247 segment 
+ 223 state 
+ 211 lt 
+ 210 sequence 
+ 207 data 
+ 198 gt 
+ 177 ack 
+ 156 protocol 
+ 156 syn 
+ 144 control 

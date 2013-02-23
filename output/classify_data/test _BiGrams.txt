@@ -1,0 +1,10 @@
+('Transmission', 'Control') 2297.39754951
+('September', '1981') 2246.20459058
+('1981', 'Transmission') 2121.2342466
+('Control', 'Protocol') 2020.39535343
+('sequence', 'number') 1737.60597736
+('Functional', 'Specification') 1676.04304931
+('Protocol', 'Functional') 1405.34150737
+('sequence', 'numbers') 858.785223626
+('in', 'the') 691.536089372
+('does', 'not') 656.569361349
