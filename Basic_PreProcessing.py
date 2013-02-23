@@ -66,8 +66,7 @@ def get_files(path_name):
     f = []
     for (dirpath, dirname, filenames) in walk(path_name):
         f.extend(map(lambda x: dirpath+"/" +x ,filenames))
-    
-    print f    
+   
     return f
 
 
@@ -87,14 +86,14 @@ if __name__ == '__main__':
             print "the usage is python Basic_PreProcessing <number of frequency count> < number of bigrams>"
             print "Going to use the default values"
            
-            number_of_words = 10
-            number_bigrams = 10
+            number_of_words = 200
+            number_bigrams = 200
             
        
     else:
         
-        number_of_words = 10
-        number_bigrams = 10
+        number_of_words = 200
+        number_bigrams = 200
     
    
     final_list = defaultdict(lambda: 0)
