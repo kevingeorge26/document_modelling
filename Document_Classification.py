@@ -39,7 +39,7 @@ Frequency_of_word Word
 
 """
 def document_feature(filename):
-    print len(top_counts)
+   
     document_words = set( x.strip().split(" ")[1] for x in open(filename).readlines() )
     features = {}
     for word in top_counts:
@@ -60,9 +60,9 @@ def classification_init():
     feature_creator()        
 
 def classify(filenames):
-    print filenames
+    
     for f in filenames:
-        print "classifier"
+        print f
         print classifier.classify(document_feature(f)) 
 
 if __name__ == '__main__':
