@@ -11,7 +11,7 @@ from collections import defaultdict
 
 total_freq = {} # stores the word count for all the docunments
 top_counts = [] # stores the top count for the words in the test case
-top_count_number = 20 # stores the number of top count you want to use fopr the feature set
+top_count_number = 200 # stores the number of top count you want to use fopr the feature set
 
 
 freq_file_list = []
@@ -30,6 +30,10 @@ def feature_creator():
     global top_counts
     map(lambda y: count(y) ,[ y for x in freq_file_list for y in open(x).readlines() ])    
     top_counts =  sorted(total_freq, key=total_freq.get, reverse=True)[:top_count_number]
+    
+    file = open("output/consolidated_frequency.txt","w")
+    for x in top_counts:
+        file.write( "{0} {1}\n".format(total_freq[x], x) )
     
 
 
@@ -54,7 +58,7 @@ def train_data():
 def classification_init():
     global total_freq,freq_file_list
     
-    temp_file =  get_files("./output")
+    temp_file =  get_files("./output/data/RFC")
     freq_file_list =  filter( lambda x : x.find("Frequency") >-1 and x.find("classify_data") == -1, temp_file )    
     total_freq = defaultdict(lambda : 0 )
     feature_creator()        
@@ -69,9 +73,9 @@ if __name__ == '__main__':
    
     global classifier
     classification_init()
-    train_data()
-    
-    classify(filter( lambda x : x.find("Frequency") >-1 , get_files("./output/classify_data")))
+#    train_data()
+#    
+#    classify(filter( lambda x : x.find("Frequency") >-1 , get_files("./output/classify_data")))
     
     
    

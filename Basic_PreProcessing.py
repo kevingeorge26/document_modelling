@@ -11,7 +11,7 @@ from collections import defaultdict
 import nltk
 from nltk.collocations import *
 import sys
-import os
+
 from os import listdir,walk
 from os.path import isfile, join
 
@@ -38,12 +38,13 @@ def calculate_word_freq(filename,number_of_words):
             for word in without_stop_words:
                 final_list[word]+=1
         
-    output = open( filename.replace("input","output").replace( ".txt" ," _Frequency.txt"), "w")    
+    output = open( filename.replace("input","output").replace( ".txt" ,"_Frequency.txt"), "w")    
     
     
     counter = 0            
     for words in sorted(final_list, key=final_list.get, reverse=True):
-        output.write( " {0} {1} \n" .format(final_list[words], words) )
+        if(len(words) > 3):
+            output.write( " {0} {1} \n" .format(final_list[words], words) )
         
         
         if counter > number_of_words:
@@ -82,6 +83,8 @@ if __name__ == '__main__':
             number_of_words = sys.argv[1]
             number_bigrams = sys.argv[2]
             
+            print " going to limit the frequency count"
+            
         else:
             print "the usage is python Basic_PreProcessing <number of frequency count> < number of bigrams>"
             print "Going to use the default values"
@@ -101,7 +104,7 @@ if __name__ == '__main__':
     trantab = maketrans(punctuation, " " * len(punctuation))
     stop_words  = set(line.strip() for line in open("stop_words.txt") )
           
-    for filename in get_files("./input"):
+    for filename in get_files("./input/data/RFC"):
         final_list.clear()
         calculate_word_freq(filename,int(number_of_words) )
         calculate_bigrams(filename,int(number_bigrams) )    

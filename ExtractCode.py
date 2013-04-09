@@ -11,36 +11,63 @@ syntax of the file (assumming there can be many files for the same protocol and 
 protocol filename , protocol filename ... ; implementation filename, implementation filename...
 
 '''
-from os import listdir,walk
+from string import maketrans
+from string import punctuation
 
 
-freq_file_location = "./output/data/RFC"
-source_file_location = "./input/data/RFC"
-implementation_details = "./input/implemetation_details.txt"
+freq_file_location = "./output/data/RFC/"
+source_file_location = "./input/data/RFC/"
+implementation_details = "./input/implementation_details.txt"
 
-processed_file = set([])
-unprocessed_file = []
 
 """ 
-Returns the list of Frequnecy files that are there after Basic_Frequency
+
 """
 def get_freq_files():
-    for (dirpath, dirname, filename) in walk(freq_file_location):
-        print filename
-        unprocessed_file.extend(map(lambda x: dirpath+"/" +x ,filter(lambda x:"imp_Frequency" in x,filename)))
-
-def process_file():
     
-    for x in unprocessed_file:
-        x.find()
+    stop_words  = set(line.strip() for line in open("stop_words.txt") )
+    trantab = maketrans(punctuation, " " * len(punctuation))
+    
+    for line in open(implementation_details):
+        protocol = line.split(";")[0].split(",")
+        impl     = line.split(";")[1].split(",")
         
+        
+        unique_keys = set([]) 
+       
+        
+        for protocol_files in protocol:
+            for key in open( freq_file_location + protocol_files.replace( ".txt" ,"_Frequency.txt") ):
+                unique_keys.add(key.split(" ")[2])
+                
+        for implementation_files in impl: # for each implementation file
+            imp_keys = set([])
+            for key in open( freq_file_location + implementation_files.replace( ".txt" ,"_Frequency.txt") ):
+                if key.split(" ")[2] in unique_keys:
+                    imp_keys.add(key.split(" ")[2] )
+            
+            print "***************" + str(len(imp_keys)) + "***********"
+            print imp_keys
+            
+            counter = 0        
+            for lines in open( source_file_location + implementation_files ):
+                with_stop_words = lines.strip().translate(trantab).lower()
+                without_stop_words = filter(lambda x: x not in stop_words, with_stop_words.split())
+                
+                if len(filter(lambda x : x in imp_keys,without_stop_words) ) >0:
+                    counter+=1
+                    
+            print "total lines " + str(counter)
+                    
+            
+        
+
         
 if __name__ == '__main__':
-    
    
     
     get_freq_files()   
-    process_file()
+
     
     
     

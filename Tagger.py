@@ -8,8 +8,12 @@ import nltk
 from nltk.tag.simplify import simplify_wsj_tag
 
 def print_preposition():
-    tokens =  nltk.word_tokenize(" The men are spending an evening in J.'s room, smoking and discussing illnesses they fancy they suffer from.")
-    print nltk.pos_tag(tokens)
+    print dir(nltk)
+    temp = "Or should we make sure the new grammar does not lose other valid English sentences that could have been generated with the original grammar"
+    tokens =  nltk.word_tokenize(temp)
+#    print nltk.pos_tag(tokens)
+    
+   
 
    
 
